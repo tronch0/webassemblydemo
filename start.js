@@ -158,8 +158,6 @@
 /******/ 				}
 /******/ 				script.src = jsonpScriptSrc(chunkId);
 /******/
-/******/ 				// create error before stack unwound to get useful stacktrace later
-/******/ 				var error = new Error();
 /******/ 				onScriptComplete = function (event) {
 /******/ 					// avoid mem leaks in IE.
 /******/ 					script.onerror = script.onload = null;
@@ -169,8 +167,7 @@
 /******/ 						if(chunk) {
 /******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
 /******/ 							var realSrc = event && event.target && event.target.src;
-/******/ 							error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
-/******/ 							error.name = 'ChunkLoadError';
+/******/ 							var error = new Error('Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')');
 /******/ 							error.type = errorType;
 /******/ 							error.request = realSrc;
 /******/ 							chunk[1](error);
@@ -198,7 +195,7 @@
 /******/ 				promises.push(installedWasmModuleData);
 /******/ 			else {
 /******/ 				var importObject = wasmImportObjects[wasmModuleId]();
-/******/ 				var req = fetch(__webpack_require__.p + "" + {"./pkg/zkif-wasm-bulletproofs/zkif_wasm_bulletproofs_bg.wasm":"4ed1c5ad10c5b0baece6","./pkg/zkif-wasm-zokrates/zkif_wasm_zokrates_bg.wasm":"a368eb3c6d4408a40dd5"}[wasmModuleId] + ".module.wasm");
+/******/ 				var req = fetch(__webpack_require__.p + "" + {"./pkg/zkif-wasm-bulletproofs/zkif_wasm_bulletproofs_bg.wasm":"a49722631b6ba20f74b9","./pkg/zkif-wasm-zokrates/zkif_wasm_zokrates_bg.wasm":"5679f528bb7e9b235f32"}[wasmModuleId] + ".module.wasm");
 /******/ 				var promise;
 /******/ 				if(importObject instanceof Promise && typeof WebAssembly.compileStreaming === 'function') {
 /******/ 					promise = Promise.all([WebAssembly.compileStreaming(req), importObject]).then(function(items) {
